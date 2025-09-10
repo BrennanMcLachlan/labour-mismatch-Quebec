@@ -1,0 +1,149 @@
+name: monitor-statscan-data
+
+# Run weekly on Mondays at 7 AM UTC
+on:
+  schedule:
+    - cron: '0 7 * * 1'
+  workflow_dispatch:
+    inputs:
+      force_download:
+        type: boolean
+        description: 'Force download regardless of date check'
+        default: false
+
+jobs:
+  check-and-process-data:
+    runs-on: ubuntu-22.04
+    steps:
+    
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+        
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        pip install pandas requests beautifulsoup4 numpy pyreadstat matplotlib
+        
+    - name: Check for data updates
+      id: check_updates
+      run: |
+        python code/check_updates.py \
+          --force-download "${{ github.event.inputs.force_download || 'false' }}" \
+          --output-file "$GITHUB_OUTPUT"
+        
+    - name: Create data and processed_data directories
+      run: |
+        mkdir -p data
+        mkdir -p processed_data
+        mkdir -p figures
+      
+    - name: Download and process data
+      if: steps.check_updates.outputs.need_download == 'true'
+      run: |
+        mkdir -p temp_raw_data
+        
+        python code/process_data.py \
+          --lfs-needs-update "${{ steps.check_updates.outputs.lfs_needs_update }}" \
+          --vacancies-needs-update "${{ steps.check_updates.outputs.vacancies_needs_update }}" \
+          --lfs-current-date "${{ steps.check_updates.outputs.lfs_current_date }}" \
+          --vacancies-current-date "${{ steps.check_updates.outputs.vacancies_current_date }}"
+        
+        rm -rf temp_raw_data raw_data
+        
+    - name: Run subset and merge script
+      if: steps.check_updates.outputs.need_download == 'true'
+      run: |
+        echo "Running subset and merge script..."
+        echo "Files before running script:"
+        ls -la processed_data/ || echo "processed_data directory not found"
+        
+        python code/subset_and_merge.py
+        
+        echo "Files after running script:"
+        ls -la processed_data/ || echo "processed_data directory not found"
+        echo "Subset and merge script completed"
+        
+    - name: Calculate mismatch indices and generate plots
+      if: steps.check_updates.outputs.need_download == 'true'
+      run: |
+        echo "Calculating mismatch indices and generating plots..."
+        python code/calculate_mismatch_index.py
+        echo "Mismatch index calculation and industry contribution plotting completed"
+        echo "Generated figures:"
+        ls -la figures/ || echo "figures directory not found"
+        
+    - name: Upload final dataset artifact
+      if: steps.check_updates.outputs.need_download == 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: statscan-final-dataset-${{ steps.check_updates.outputs.combined_date }}
+        path: |
+          processed_data/final_data.csv
+          figures/*.png
+          data/last_reference_date_*.txt
+          data/download_log.txt
+        if-no-files-found: warn
+        retention-days: 90
+        
+    - name: Commit final dataset and metadata
+      if: steps.check_updates.outputs.need_download == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+
+        BRANCH="${GITHUB_REF##*/}"
+        git fetch origin "$BRANCH" || true
+        
+        if ! git rev-parse --verify "$BRANCH" >/dev/null 2>&1; then
+          echo "Branch $BRANCH does not exist locally. Creating..."
+          git checkout --orphan "$BRANCH"
+        else
+          git checkout "$BRANCH"
+        fi
+
+        # Stage the final dataset, metadata files, and all figures (including French versions)
+        git add -f processed_data/final_data.csv
+        git add -f figures/*.png || true
+        git add -f data/last_reference_date_*.txt || true
+        git add -f data/download_log.txt || true
+        
+        if git diff --cached --quiet; then
+          echo "No new data changes to commit."
+        else
+          # Stash everything (including untracked) to avoid pull conflicts
+          git stash push --include-untracked -m "Auto-stash before pull"
+
+          git pull --rebase origin "$BRANCH" || echo "Pull failed, continuing..."
+
+          git stash pop || echo "No stash to pop"
+
+          # CRITICAL: Re-stage all intended files after stash pop
+          git add -f processed_data/final_data.csv
+          git add -f figures/*.png || true
+          git add -f data/last_reference_date_*.txt || true
+          git add -f data/download_log.txt || true
+
+          # Check again if there are staged changes to commit
+          if git diff --cached --quiet; then
+            echo "No staged changes to commit after restaging."
+          else
+            COMMIT_MSG="Update final JVWS-LFS dataset with phi values and industry plots (EN/FR): LFS (${{ steps.check_updates.outputs.lfs_current_date }}), Vacancies (${{ steps.check_updates.outputs.vacancies_current_date }})"
+            git commit -m "$COMMIT_MSG"
+            git push origin "$BRANCH"
+          fi
+        fi
+
+        
+    - name: No update needed
+      if: steps.check_updates.outputs.need_download == 'false'
+      run: |
+        echo "No new data available for either dataset."
+        echo "LFS reference period: ${{ steps.check_updates.outputs.lfs_current_date }} (stored: ${{ steps.check_updates.outputs.lfs_stored_date }})"
+        echo "Vacancies reference period: ${{ steps.check_updates.outputs.vacancies_current_date }} (stored: ${{ steps.check_updates.outputs.vacancies_stored_date }})"
