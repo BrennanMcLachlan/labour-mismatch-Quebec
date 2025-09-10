@@ -1,0 +1,2 @@
+2025-09-10 20:47:12: Downloaded and processed LFS data (ref period: 2025-08-01)
+2025-09-10 20:47:12: Downloaded and processed Vacancies data (ref period: 2025-01-01)
