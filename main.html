@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Rapport de Recherche - Résultats d'Analyse de Données</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .language-switch {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .lang-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .lang-button:hover {
+            background-color: #0056b3;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .figure-container {
+            margin: 40px 0;
+            text-align: center;
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            border: 2px dashed #dee2e6;
+        }
+
+        .figure-note {
+            font-size: 0.95em;
+            color: #495057;
+            font-style: italic;
+            text-align: left;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #fff;
+            border-left: 4px solid #007bff;
+        }
+
+        .discussion {
+            margin: 40px 0;
+        }
+
+        .discussion h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+
+        .discussion p {
+            margin-bottom: 20px;
+            text-align: justify;
+            font-size: 1.05em;
+        }
+
+        .report-link {
+            margin-top: 40px;
+            text-align: center;
+            padding: 30px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .pdf-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #dc3545;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin: 5px;
+        }
+
+        .pdf-button:hover {
+            background-color: #c82333;
+        }
+
+        .pdf-button::before {
+            content: "📄 ";
+        }
+
+        .git-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #dc3545;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin: 5px;
+        }
+
+        .git-button:hover {
+            background-color: #c82333;
+        }
+
+        .data-box {
+            margin: auto;
+            width: 400px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: #ffffff71;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .figure-placeholder {
+                height: 300px;
+            }
+
+            .language-switch {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="language-switch">
+        <button class="lang-button" onclick="switchLanguage()">
+            <span id="lang-switch-text">English</span>
+        </button>
+    </div>
+
+    <!-- French Version -->
+    <div id="french-content">
+        <div class="header">
+            <h1>Indice de Décalage du Marché du Travail au Québec</h1>
+            <p class="subtitle">Fabian Lange, Brennan McLachlan, et Markus Poschke</p>
+        </div>
+
+        <div class="discussion">
+            <p>
+                <a href="https://github.com/BrennanMcLachlan/test-weekly-update" target="_blank">Ce projet</a> explore l'ampleur du décalage entre les demandeurs d'emploi et les postes vacants au Québec. Un décalage peut survenir lorsque ceux qui cherchent un emploi se concentrent dans des segments du marché du travail, par exemple des industries, avec de faibles probabilités de trouver un emploi. Les probabilités de trouver un emploi peuvent être faibles dans certains segments du marché du travail parce que les employeurs ouvrent peu de postes ou parce qu'il est difficile de jumeler les employeurs et les employés dans ces segments. Le décalage réduit le taux de recherche d'emploi et augmente le chômage.
+            </p>
+
+            <p>
+                Nous présentons ici trois figures qui sont automatiquement mises à jour lorsque Statistique Canada publie les données sur l'emploi via l'Enquête sur la population active (EPA, <a href="https://www150.statcan.gc.ca/t1/tbl1/fr/tv.action?pid=1410002201" target="_blank">Tableau 14-10-0022-01</a>) et les données sur les postes vacants via l'Enquête sur les postes vacants et les salaires (EPVS, <a href="https://www150.statcan.gc.ca/t1/tbl1/fr/tv.action?pid=1410044201" target="_blank">Tableau 14-10-0442-01</a>).
+            </p>
+                
+            <p>
+                Suivant la méthodologie de <a href="http://doi.org/10.1257/aer.104.11.3529" target="_blank">Sahin et al. (2014)</a>, la Figure 1 montre un indice de décalage au Québec superposé avec une moyenne mobile de 6 mois pour lisser les fluctuations à court terme. La Figure 2 montre le même calcul effectué pour l'Ontario afin de comparer les deux. La Figure 3 étend le cadre pour décomposer l'indice de décalage au Québec en contributions respectives de l'industrie pour cinq industries d'intérêt sélectionnées.
+            </p>
+
+            <p>
+                L'indice de décalage est une valeur unique qui quantifie l'écart entre la répartition réelle et la répartition idéale des demandeurs d'emploi dans les différents secteurs de l'économie. Il mesure la fraction des embauches réelles qui n'est pas atteinte par rapport au maximum d'embauches pouvant être réalisé si les demandeurs d'emploi étaient parfaitement répartis entre les secteurs afin de maximiser le taux de placement.
+            </p>
+            <p>
+                Une valeur plus élevée de l'indice indique un plus grand degré de déséquilibre et une part plus importante des embauches potentielles qui sont perdues. L'indice est influencé à la fois par le décalage entre le nombre de demandeurs d'emploi et le nombre de postes vacants dans une industrie et par l'efficacité de la « technologie d'appariement » (ou des frictions) sur le marché du travail pour cette industrie.
+            </p>
+        </div>
+
+        <div class="data-box">
+            <p>Dernières données EPVS disponibles : <span id="jvws-date-fr">Chargement...</span></p>
+            <p>Dernières données EPA disponibles : <span id="lfs-date-fr">Chargement...</span></p>
+        </div>
+
+        <div class="figure-container">
+            <div class="figure-placeholder">
+                <img src="figures/Mismatch%20Index%20in%20Quebec.png" alt="Indice de décalage pour le Québec" style="max-width: 100%; height: auto;">
+            </div>
+            
+            <div class="figure-note">
+                <strong>Figure 1 :</strong> Indice de décalage pour le Québec.
+            </div>
+        </div>
+
+        <div class="figure-container">
+            <div class="figure-placeholder">
+                <img src="figures/QC_ON_Mismatch_FR.png" alt="Comparaison du décalage au Québec et en Ontario" style="max-width: 100%; height: auto;">
+            </div>
+            
+            <div class="figure-note">
+                <strong>Figure 2 :</strong> Décalage au Québec et en Ontario.
+            </div>
+        </div>
+
+        <div class="figure-container">
+            <div class="figure-placeholder">
+                <img src="figures/QC_Industry_Mismatch_Contributions_FR.png" alt="Décomposition du décalage au Québec" style="max-width: 100%; height: auto;">
+            </div>
+            
+            <div class="figure-note">
+                <strong>Figure 3 :</strong> Décomposition industrielle du décalage au Québec.
+            </div>
+        </div>
+
+        <div class="report-link">
+            <p style="margin-bottom: 15px; color: #6c757d;">Pour la méthodologie détaillée et les résultats complets :</p>
+            <a href="./report.pdf" class="pdf-button" target="_blank">Télécharger le Rapport Complet 2025 (PDF)</a>
+            <p style="margin-bottom: 15px; margin-top: 15px; color: #6c757d;">Pour les codes sources et les scripts de traitement des données, voyez le dépôt GitHub :</p>
+            <a href="https://github.com/BrennanMcLachlan/test-weekly-update" class="git-button" target="_blank"><i class="fa fa-github" style="font-size:20px"></i> Accès au Projet GitHub</a>
+        </div>
+    </div>
+
+    <!-- English Version -->
+    <div id="english-content" class="hidden">
+        <div class="header">
+            <h1>Labour Mismatch Index in Quebec</h1>
+            <p class="subtitle">Fabian Lange, Brennan McLachlan, and Markus Poschke</p>
+        </div>
+
+        <div class="discussion">
+            <p>
+                <a href="https://github.com/BrennanMcLachlan/test-weekly-update" target="_blank">This project</a> explores the extent of mismatch between job seekers and vacancies in Québec. Mismatch may occur when those seeking jobs are concentrated in segments of the labour market, e.g. industries, with low job
+                finding probabilities. Job finding probabilities might be low in some segments of the labour market because employers open few positions or because it is difficult to match employers and employees in these segments. Mismatch reduces the job finding rate and increases unemployment.
+            </p>
+
+            <p>
+                Here we present three figures that are automatically updated as Statistics Canada releases employment data via the Labour Force Survey (LFS, <a href="https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410002201" target="_blank"> Table 14-10-0022-01</a>) and vacancy data via the Job Vacancy and Wage Survey (JVWS, <a href="https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410044201" target="_blank"> Table 14-10-0442-01</a>).
+            </p>
+                
+            <p>
+                Following the methodology of <a href="http://doi.org/10.1257/aer.104.11.3529" target="_blank"> Sahin et al. (2014)</a>, Figure 1 shows a mismatch index in Quebec overlaid with a 6-month moving average to smooth out short-term fluctuations. Figure 2 shows the same calculation done for Ontario so as to compare the two. Figure 3 extends the framework to decompose the mismatch index in Quebec into the respective industry contributions for five select industries of interest.
+            </p>
+
+            <p>
+                The mismatch index is a single value that quantifies the discrepancy between the actual and the ideal distribution of job seekers across different sectors of the economy. It measures the fraction by which actual hires fall short of the maximum possible hires that could be achieved if job seekers were perfectly allocated between industries to maximize the job-finding rate.
+            </p>
+
+            <p>
+                A higher value of the index indicates a greater degree of mismatch and a larger share of potential hires that are lost. The index is influenced by both the imbalance between the number of job seekers and vacancies in an industry and the efficiency of the "matching technology" (or frictions) in the labour market for that industry.
+            </p>
+        </div>
+
+        <div class="data-box">
+            <p>Latest available JVWS data: <span id="jvws-date-en">Loading...</span></p>
+            <p>Latest available LFS data: <span id="lfs-date-en">Loading...</span></p>
+        </div>
+
+        <div class="figure-container">
+            <div class="figure-placeholder">
+                <img src="figures/Mismatch%20Index%20in%20Quebec.png" alt="Mismatch Index for Quebec" style="max-width: 100%; height: auto;">
+            </div>
+            
+            <div class="figure-note">
+                <strong>Figure 1:</strong> Mismatch index for Quebec.
+            </div>
+        </div>
+
+        <div class="figure-container">
+            <div class="figure-placeholder">
+                <img src="figures/QC_ON_Mismatch.png" alt="Comparing Mismatch in Quebec and Ontario" style="max-width: 100%; height: auto;">
+            </div>
+            
+            <div class="figure-note">
+                <strong>Figure 2:</strong> Mismatch in Quebec and Ontario. 
+            </div>
+        </div>
+
+        <div class="figure-container">
+            <div class="figure-placeholder">
+                <img src="figures/QC_Industry_Mismatch_Contributions.png" alt="Decomposing mismatch in Quebec" style="max-width: 100%; height: auto;">
+            </div>
+            
+            <div class="figure-note">
+                <strong>Figure 3:</strong> Industry Decomposition of Quebec mismatch.
+            </div>
+        </div>
+
+        <div class="report-link">
+            <p style="margin-bottom: 15px; color: #6c757d;">For detailed methodology and complete results:</p>
+            <a href="./report.pdf" class="pdf-button" target="_blank">Download Full 2025 Report (PDF)</a>
+            <p style="margin-bottom: 15px; margin-top: 15px; color: #6c757d;">For source codes and data processing scripts, see the GitHub Repository </p>
+            <a href="https://github.com/BrennanMcLachlan/test-weekly-update" class="git-button" target="_blank"><i class="fa fa-github" style="font-size:20px"></i> Access to Github Project</a>
+        </div>
+    </div>
+
+<script>
+    let currentLanguage = 'french';
+
+    function switchLanguage() {
+        const frenchContent = document.getElementById('french-content');
+        const englishContent = document.getElementById('english-content');
+        const langSwitchText = document.getElementById('lang-switch-text');
+        const htmlElement = document.documentElement;
+
+        if (currentLanguage === 'french') {
+            frenchContent.classList.add('hidden');
+            englishContent.classList.remove('hidden');
+            langSwitchText.textContent = 'Français';
+            htmlElement.lang = 'en';
+            document.title = 'Research Report - Data Analysis Results';
+            currentLanguage = 'english';
+        } else {
+            englishContent.classList.add('hidden');
+            frenchContent.classList.remove('hidden');
+            langSwitchText.textContent = 'English';
+            htmlElement.lang = 'fr';
+            document.title = 'Rapport de Recherche - Résultats d\'Analyse de Données';
+            currentLanguage = 'french';
+        }
+    }
+
+    async function fetchDate(elementIds, filePath) {
+        try {
+            const response = await fetch(filePath);
+            if (!response.ok) {
+                throw new Error('Failed to fetch file');
+            }
+            const dateText = await response.text();
+            const fullDate = dateText.trim();
+            
+            const parts = fullDate.split('-');
+            const displayDate = parts.length >= 2 ? parts.slice(0, 2).join('-') : fullDate;
+            
+            elementIds.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = displayDate;
+                }
+            });
+            
+        } catch (error) {
+            console.error(`Error fetching the date:`, error);
+            elementIds.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = 'Date non disponible';
+                }
+            });
+        }
+    }
+
+    // Load dates for both language versions
+    fetchDate(['jvws-date-fr', 'jvws-date-en'], 'data/last_reference_date_vacancies.txt');
+    fetchDate(['lfs-date-fr', 'lfs-date-en'], 'data/last_reference_date_lfs.txt');
+</script>
+
+</body>
+</html>
