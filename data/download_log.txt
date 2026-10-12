@@ -17,3 +17,4 @@
 2026-08-10 08:27:49: Downloaded and processed LFS data (ref period: 2026-07-01)
 2026-09-07 13:20:11: Downloaded and processed LFS data (ref period: 2026-08-01)
 2026-09-21 13:41:42: Downloaded and processed Vacancies data (ref period: 2026-04-01)
+2026-10-12 16:33:56: Downloaded and processed LFS data (ref period: 2026-09-01)
